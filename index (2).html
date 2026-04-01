@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fadel Youssef · Portfolio Cybersécurité</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --green: #00ff9d;
+    --green-dim: #00ff9d22;
+    --green-glow: #00ff9d55;
+    --blue: #60a5fa;
+    --amber: #fbbf24;
+    --red: #f87171;
+    --bg: #0a0e17;
+    --bg2: #111827;
+    --bg3: #1e293b;
+    --text: #e2e8f0;
+    --muted: #64748b;
+    --border: #ffffff0a;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    overflow-x: hidden;
+  }
+
+  .scan-line {
+    position: fixed; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--green-glow), var(--green), var(--green-glow), transparent);
+    animation: scan 5s linear infinite; z-index: 999; pointer-events: none;
+  }
+  @keyframes scan { 0%{top:0;opacity:1} 95%{opacity:0.2} 100%{top:100vh;opacity:0} }
+
+  .grid-bg {
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background-image:
+      linear-gradient(rgba(0,255,157,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,255,157,0.03) 1px, transparent 1px);
+    background-size: 44px 44px;
+  }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1rem 2rem;
+    background: rgba(10,14,23,0.92); backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--green-dim);
+  }
+  .nav-logo { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--green); text-decoration: none; letter-spacing: 1px; }
+  .nav-links { display: flex; gap: 1.5rem; list-style: none; }
+  .nav-links a { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--muted); text-decoration: none; letter-spacing: 1px; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--green); }
+
+  .wrapper { position: relative; z-index: 1; max-width: 900px; margin: 0 auto; padding-top: 64px; }
+
+  .section { padding: 2rem 2rem; border-bottom: 1px solid var(--border); }
+
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; color: var(--green); letter-spacing: 3px;
+    text-transform: uppercase; margin-bottom: 1.25rem; opacity: 0.7;
+  }
+
+  /* HERO */
+  .hero { padding: 3rem 2rem 2.5rem; border-bottom: 1px solid var(--green-dim); }
+  .hero-tag { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--green); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 1rem; opacity: 0.8; }
+  .hero-tag::before { content: '> '; color: var(--green-glow); }
+  .hero-name { font-size: clamp(2.2rem, 6vw, 3.5rem); font-weight: 800; line-height: 1; color: #fff; letter-spacing: -1px; margin-bottom: 0.5rem; }
+  .hero-name span { color: var(--green); }
+  .hero-sub { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--muted); margin-bottom: 1.5rem; letter-spacing: 0.5px; }
+  .badges { display: flex; flex-wrap: wrap; gap: 8px; }
+  .badge { font-family: 'JetBrains Mono', monospace; font-size: 11px; padding: 4px 10px; border-radius: 4px; border: 1px solid; letter-spacing: 0.5px; }
+  .bg { border-color: #00ff9d55; color: var(--green); background: #00ff9d10; }
+  .bb { border-color: #3b82f655; color: var(--blue);  background: #3b82f610; }
+  .ba { border-color: #f59e0b55; color: var(--amber); background: #f59e0b10; }
+  .br { border-color: #ef444455; color: var(--red);   background: #ef444410; }
+  .cursor { display: inline-block; width: 10px; height: 1em; background: var(--green); margin-left: 3px; vertical-align: middle; animation: blink 1s steps(1) infinite; }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+  /* ABOUT */
+  .about-box {
+    background: #00ff9d08; border: 1px solid #00ff9d1a;
+    border-radius: 8px; padding: 1.25rem 1.5rem;
+    font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #94a3b8; line-height: 1.9;
+  }
+  .about-box strong { color: var(--green); font-weight: 500; }
+  .about-box .line { margin-bottom: 2px; }
+  .about-box .line::before { content: '// '; color: #00ff9d30; }
+
+  .stats-row {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+    gap: 1px; background: #1e293b; border: 1px solid #1e293b;
+    border-radius: 8px; overflow: hidden; margin-top: 1rem;
+  }
+  .stat { background: var(--bg2); padding: 1rem 1.25rem; }
+  .stat-num { font-family: 'JetBrains Mono', monospace; font-size: 1.8rem; font-weight: 700; color: var(--green); line-height: 1; margin-bottom: 4px; }
+  .stat-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--muted); }
+
+  /* PROJECTS */
+  .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
+  .project-card {
+    background: var(--bg2); border: 1px solid #1e293b;
+    border-radius: 8px; padding: 1.25rem;
+    position: relative; overflow: hidden;
+    transition: border-color 0.2s, transform 0.15s;
+    text-decoration: none; display: block; color: inherit;
+  }
+  .project-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--accent, var(--green)); opacity: 0; transition: opacity 0.2s; }
+  .project-card:hover { border-color: var(--accent-dim, #00ff9d33); transform: translateY(-2px); }
+  .project-card:hover::before { opacity: 1; }
+
+  .proj-status { font-family: 'JetBrains Mono', monospace; font-size: 10px; padding: 2px 8px; border-radius: 3px; display: inline-block; margin-bottom: 10px; letter-spacing: 0.5px; }
+  .s-wip  { background: rgba(251,191,36,0.1); color: var(--amber); border: 1px solid rgba(251,191,36,0.25); }
+  .s-done { background: rgba(0,255,157,0.08); color: var(--green); border: 1px solid rgba(0,255,157,0.25); }
+
+  .proj-title { font-size: 15px; font-weight: 700; color: #f1f5f9; margin-bottom: 6px; }
+  .proj-desc { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--muted); line-height: 1.6; margin-bottom: 12px; }
+  .proj-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+  .ptag { font-family: 'JetBrains Mono', monospace; font-size: 10px; padding: 2px 7px; background: #1e293b; color: #94a3b8; border-radius: 3px; }
+
+  .project-card.big { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: start; }
+  .osint-terminal {
+    background: #060a12; border: 1px solid #1e293b;
+    border-radius: 6px; padding: 1.25rem;
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; line-height: 2;
+  }
+  .t-cmd { color: var(--green); }
+  .t-val { color: #e2e8f0; }
+  .t-ok  { color: #00ff9d80; }
+  .t-dim { color: #1e293b; }
+
+  /* SKILLS */
+  .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; }
+  .skill-group-title { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #94a3b8; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; }
+  .skill-bar { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+  .skill-name { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #cbd5e1; width: 110px; flex-shrink: 0; }
+  .skill-track { flex: 1; height: 3px; background: #1e293b; border-radius: 2px; overflow: hidden; }
+  .skill-fill { height: 100%; border-radius: 2px; background: var(--c, var(--green)); animation: fillIn 1.2s ease forwards; width: 0; }
+  @keyframes fillIn { to { width: var(--w); } }
+
+  /* FORMATIONS */
+  .formations { display: flex; flex-direction: column; gap: 10px; }
+  .formation-row { display: flex; align-items: flex-start; gap: 14px; padding: 12px 14px; background: var(--bg2); border: 1px solid #1e293b; border-radius: 6px; }
+  .form-icon { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--green); margin-top: 2px; min-width: 16px; }
+  .form-name { font-size: 13px; font-weight: 700; color: #f1f5f9; }
+  .form-detail { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--muted); margin-top: 3px; }
+
+  /* CONTACT */
+  .contact-row { display: flex; flex-wrap: wrap; gap: 8px; }
+  .contact-item { font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 8px 14px; background: var(--bg2); border: 1px solid #1e293b; border-radius: 6px; color: #94a3b8; text-decoration: none; transition: border-color 0.2s, color 0.2s; }
+  .contact-item:hover { border-color: var(--green-glow); color: var(--text); }
+  .contact-item span { color: var(--green); }
+
+  footer { text-align: center; padding: 2rem; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #1e293b; border-top: 1px solid var(--border); }
+
+  @media (max-width: 640px) {
+    .project-card.big { grid-template-columns: 1fr; }
+    .osint-terminal { display: none; }
+    .nav-links { display: none; }
+    .hero { padding: 2rem 1.5rem; }
+    .section { padding: 2rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="scan-line"></div>
+<div class="grid-bg"></div>
+
+<nav>
+  <a href="#" class="nav-logo">// YF</a>
+  <ul class="nav-links">
+  </ul>
+</nav>
+
+<div class="wrapper">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-tag">portfolio — cybersécurité — 2026</div>
+    <div class="hero-name">Fadel <span>Youssef</span><span class="cursor"></span></div>
+    <div class="hero-sub">// Blue Team · SOC analyst en devenir</div>
+    <div class="badges">
+      <span class="badge bb">Python</span>
+      <span class="badge bb">Linux</span>
+      <span class="badge bg">OSINT</span>
+      <span class="badge ba">TCP/IP</span>
+      <span class="badge br">Sécurité défensive</span>
+      <span class="badge bg">FR · EN · DE · AR</span>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <div class="section" id="about">
+    <div class="section-label">// about</div>
+    <div class="about-box">
+      <div class="line">Passionné par la sécurité des systèmes et des réseaux.</div>
+      <div class="line">Autodidacte — j'apprends en construisant des outils réels.</div>
+      <div class="line">Objectif : <strong>analyste SOC · Blue Team · sécurité des infrastructures.</strong></div>
+    </div>
+    <div class="stats-row">
+      <div class="stat"><div class="stat-num">4</div><div class="stat-label">langues</div></div>
+      <div class="stat"><div class="stat-num">4</div><div class="stat-label">projets</div></div>
+      <div class="stat"><div class="stat-num">∞</div><div class="stat-label">motivation</div></div>
+    </div>
+  </div>
+
+  <!-- PROJETS -->
+  <div class="section" id="projets">
+    <div class="section-label">// projets</div>
+    <div class="projects-grid">
+
+      <a class="project-card big" href="https://github.com/[ton-github]/osint-tool" target="_blank"
+         style="--accent:#00ff9d; --accent-dim:#00ff9d33;">
+        <div>
+          <span class="proj-status s-wip">en cours</span>
+          <div class="proj-title">Outil OSINT automatisé</div>
+          <p class="proj-desc">Reconnaissance complète d'un domaine ou IP en une commande : DNS/WHOIS, scan de ports, headers HTTP, géolocalisation IP, rapport HTML généré automatiquement. Architecture modulaire Python.</p>
+          <div class="proj-tags">
+            <span class="ptag">Python</span>
+            <span class="ptag">DNS</span>
+            <span class="ptag">WHOIS</span>
+            <span class="ptag">Scapy</span>
+            <span class="ptag">Jinja2</span>
+            <span class="ptag">GeoIP</span>
+          </div>
+        </div>
+        <div class="osint-terminal">
+          <div><span class="t-cmd">$</span> python main.py google.com</div>
+          <div class="t-dim">──────────────────────────</div>
+          <div><span class="t-ok">[DNS]  </span> <span class="t-val">142.250.74.46 · A record</span></div>
+          <div><span class="t-ok">[WHOIS]</span> <span class="t-val">registrar: MarkMonitor</span></div>
+          <div><span class="t-ok">[PORTS]</span> <span class="t-val">80/tcp · 443/tcp open</span></div>
+          <div><span class="t-ok">[HTTP] </span> <span class="t-val">server: gws · HSTS: ✓</span></div>
+          <div><span class="t-ok">[GEO]  </span> <span class="t-val">US · Mountain View · Google LLC</span></div>
+          <div class="t-dim">──────────────────────────</div>
+          <div><span class="t-cmd">→</span> <span class="t-val">rapport.html généré ✓</span></div>
+        </div>
+      </a>
+
+      <a class="project-card" href="https://github.com/[ton-github]/packet-sniffer" target="_blank"
+         style="--accent:#60a5fa; --accent-dim:#3b82f633;">
+        <span class="proj-status s-wip">en cours</span>
+        <div class="proj-title">Analyseur de paquets réseau</div>
+        <p class="proj-desc">Capture du trafic local en temps réel. IP src/dst, protocole, payload. Export logs en fichier texte.</p>
+        <div class="proj-tags">
+          <span class="ptag">Python</span><span class="ptag">Scapy</span><span class="ptag">TCP/IP</span>
+        </div>
+      </a>
+
+      <a class="project-card" href="https://github.com/[ton-github]/port-scanner" target="_blank"
+         style="--accent:#fbbf24; --accent-dim:#f59e0b33;">
+        <span class="proj-status s-wip">en cours</span>
+        <div class="proj-title">Scanner de ports</div>
+        <p class="proj-desc">Scan d'une plage de ports sur IP cible, identification des services, mesure des temps de réponse. Zéro dépendance externe.</p>
+        <div class="proj-tags">
+          <span class="ptag">Python</span><span class="ptag">Socket</span><span class="ptag">Threading</span>
+        </div>
+      </a>
+
+      <a class="project-card" href="https://github.com/[ton-github]/password-checker" target="_blank"
+         style="--accent:#f87171; --accent-dim:#ef444433;">
+        <span class="proj-status s-wip">en cours</span>
+        <div class="proj-title">Vérificateur de mots de passe</div>
+        <p class="proj-desc">Entropie, top 1000, estimation brute force, score de robustesse + conseils personnalisés.</p>
+        <div class="proj-tags">
+          <span class="ptag">Python</span><span class="ptag">Cryptographie</span><span class="ptag">Sécurité</span>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- SKILLS -->
+  <div class="section" id="skills">
+    <div class="section-label">// compétences</div>
+    <div class="skills-grid">
+      <div>
+        <div class="skill-group-title">Sécurité & réseaux</div>
+        <div class="skill-bar"><span class="skill-name">TCP/IP</span><div class="skill-track"><div class="skill-fill" style="--w:60%;--c:#00ff9d"></div></div></div>
+        <div class="skill-bar"><span class="skill-name">Analyse trafic</span><div class="skill-track"><div class="skill-fill" style="--w:45%;--c:#00ff9d"></div></div></div>
+        <div class="skill-bar"><span class="skill-name">OSINT</span><div class="skill-track"><div class="skill-fill" style="--w:55%;--c:#00ff9d"></div></div></div>
+        <div class="skill-bar"><span class="skill-name">Blue Team</span><div class="skill-track"><div class="skill-fill" style="--w:35%;--c:#00ff9d"></div></div></div>
+      </div>
+      <div>
+        <div class="skill-group-title">Dev & systèmes</div>
+        <div class="skill-bar"><span class="skill-name">Python</span><div class="skill-track"><div class="skill-fill" style="--w:60%;--c:#60a5fa"></div></div></div>
+        <div class="skill-bar"><span class="skill-name">Linux / Bash</span><div class="skill-track"><div class="skill-fill" style="--w:45%;--c:#60a5fa"></div></div></div>
+        <div class="skill-bar"><span class="skill-name">Git / GitHub</span><div class="skill-track"><div class="skill-fill" style="--w:55%;--c:#60a5fa"></div></div></div>
+        <div class="skill-bar"><span class="skill-name">HTML / CSS</span><div class="skill-track"><div class="skill-fill" style="--w:50%;--c:#60a5fa"></div></div></div>
+      </div>
+      <div>
+        <div class="skill-group-title">Langues</div>
+        <div class="skill-bar"><span class="skill-name">Français</span><div class="skill-track"><div class="skill-fill" style="--w:100%;--c:#fbbf24"></div></div></div>
+        <div class="skill-bar"><span class="skill-name">Allemand</span><div class="skill-track"><div class="skill-fill" style="--w:85%;--c:#fbbf24"></div></div></div>
+        <div class="skill-bar"><span class="skill-name">Anglais</span><div class="skill-track"><div class="skill-fill" style="--w:75%;--c:#fbbf24"></div></div></div>
+        <div class="skill-bar"><span class="skill-name">Arabe littéraire</span><div class="skill-track"><div class="skill-fill" style="--w:85%;--c:#fbbf24"></div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FORMATIONS -->
+  <div class="section" id="formations">
+    <div class="section-label">// formations</div>
+    <div class="formations">
+      <div class="formation-row">
+        <div class="form-icon" style="color:var(--muted)">✓</div>
+        <div>
+          <div class="form-name">Baccalauréat général — spécialité NSI</div>
+          <div class="form-detail">Numérique et Sciences Informatiques · LEA anglais-espagnol · 2023</div>
+        </div>
+      </div>
+      <div class="formation-row">
+        <div class="form-icon" style="color:var(--green)">✓</div>
+        <div>
+          <div class="form-name">Cisco Networking Academy — Introduction to Cybersecurity</div>
+          <div class="form-detail">Cours en ligne gratuit · fondamentaux sécurité, menaces, défense réseau · 2026</div>
+        </div>
+      </div>
+      <div class="formation-row">
+        <div class="form-icon" style="color:var(--green)">✓</div>
+        <div>
+          <div class="form-name">OpenClassrooms — Initiez-vous à la cybersécurité</div>
+          <div class="form-detail">Cours en ligne gratuit · analyse de risques, bonnes pratiques, RGPD · 2026</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  </div>
+
+</div>
+
+<footer>// Fadel Youssef · 2026
